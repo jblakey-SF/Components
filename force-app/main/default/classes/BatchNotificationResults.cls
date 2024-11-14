@@ -11,4 +11,5 @@ public with sharing class BatchNotificationResults{
     
     
   
+        
 }
