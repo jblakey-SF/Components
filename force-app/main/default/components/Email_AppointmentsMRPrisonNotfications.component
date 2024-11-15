@@ -1,0 +1,94 @@
+<apex:component access="global">
+    <apex:attribute name="Appointment" access="global" type="Appointment__c" required="true" description="Appointment"/>
+    <!-- Email Templates MUST use inline styling or it will not render properly in Outlook. 
+    ALSO, do not style <tr> tags as they will be overriden in Outlook. -->
+    <div align="center">
+        <table style="width: 7.5in;
+                    margin-top: 10px;
+                    border-spacing: 0px;
+                    border-collapse: collapse;
+                    font-size: 14px;
+                    font-family: Arial;">
+            <thead>
+                <tr>
+                    <td style="padding: 20px;background-color: #e9ecef;">
+                        <c:Email_Section_Header />
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="background-color: #ffb837;color: black;padding-left: 20px;padding-right:20px;">
+                        <c:Email_Section_SubHeader EmailTitle="ATTENTION:Medical Record's Attach To An Appointment" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #2d5545;color: #e9ecef;padding: 20px;">
+                        <table width="100%" style="width: 100%">
+                            <tbody>
+                                <tr>
+                                    <td style="color:#e9ecef">
+                                        <p style="margin-top:20px;">To whom it may concern:</p>
+                                        <p>
+                                            The following appointment had  medical record's attached today. Below is information related to the appointment. 
+                                            <P>
+                                                <table border="1">
+                                                    <tr>
+                                                        <th>Appointment Name</th>
+                                                        <th>Prison Parent Account Name</th>
+                                                        <th>Inmate Name</th>
+                                                        <th>Inmate Number</th>
+
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{!appointment.Name}</td>
+                                                        <td>{!appointment.Prison_Account__r.Parent.Name}</td>
+                                                        <td>{!appointment.Inmate__r.Name}</td>
+                                                        <td>{!appointment.Inmate_Number__c}</td>
+
+
+                                                    </tr>
+                                                </table>
+
+                                            </P>
+
+                                        </p>
+                                        
+                                        <p>
+                                            Please use Seven Corners' address and phone number for the inmate’s home address and phone number so no communications are sent to the prison.
+                                        </p>
+                                        <p>
+                                            If you have any questions, please contact me.
+                                        </p>
+                                        <p style="margin-top:40px;">
+                                            Thank you!
+                                        </p>
+                                        <p>
+                                            {!$User.FirstName} {!$User.LastName} <br />
+                                            {!$User.Title}<br />
+                                            On behalf of
+                                            <apex:outputPanel rendered="{!ISBLANK(Appointment.Prison_Account__r.Parent)}">
+                                                {!Appointment.Prison_Account__r.Name}.
+                                            </apex:outputPanel>
+                                            <apex:outputPanel rendered="{!!ISBLANK(Appointment.Prison_Account__r.Parent)}">
+                                                {!Appointment.Prison_Account__r.Parent.Name}.
+                                            </apex:outputPanel>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="padding: 20px;background-color: #ffb837;color: black;">
+                        <c:Email_Section_Footer />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</apex:component>
